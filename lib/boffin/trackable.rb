@@ -44,6 +44,12 @@ module Boffin
       self.class.boffin.hit(type, self, uniquenesses)
     end
 
+    # @see Tracker#hit_by
+    # @return [HitBy]
+    def hit_by(increment, type, uniquenesses = [])
+      self.class.boffin.hit_by(increment, type, self, uniquenesses)
+    end
+
     # @see Tracker#hit_count
     # @return [Fixnum]
     def hit_count(type)

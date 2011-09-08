@@ -7,6 +7,7 @@ require 'boffin/config'
 require 'boffin/keyspace'
 require 'boffin/tracker'
 require 'boffin/hit'
+require 'boffin/hit_by'
 require 'boffin/trackable'
 
 # Boffin is a library for tracking hits to things in your Ruby application.

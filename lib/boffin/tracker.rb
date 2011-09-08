@@ -35,6 +35,19 @@ module Boffin
       Hit.new(self, hit_type, instance, uniquenesses)
     end
 
+    # @param [Fixnum] increment (must be an integer)
+    # @param [Symbol] hit_type
+    # @param [#as_member, #id, #to_s] instance
+    # @param [Array] uniquenesses
+    # @return [HitBy]
+    # @raise Boffin::UndefinedHitTypeError
+    #   Raised if a list of hit types is available and the provided hit type is
+    #   not in the list.
+    def hit_by(increment, hit_type, instance, uniquenesses = [])
+      validate_hit_type(hit_type)
+      HitBy.new(increment, self, hit_type, instance, uniquenesses)
+    end
+
     # @param [Symbol] hit_type
     # @param [#as_member, #id, #to_s] instance
     # @return [Fixnum]
