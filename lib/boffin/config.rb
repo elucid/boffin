@@ -87,5 +87,12 @@ module Boffin
       @cache_expire_secs ||= 15 * 60 # 15 minutes
     end
 
+    # @return [Fixnum]
+    #   Number of seconds to maintain set of session-specific hits
+    attr_accessor :hits_window_secs
+
+    # @return [Fixnum]
+    #   Number of seconds to maintain total hit counts
+    attr_accessor :hit_count_window_secs
   end
 end

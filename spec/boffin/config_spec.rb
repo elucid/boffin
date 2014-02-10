@@ -62,4 +62,12 @@ describe Boffin::Config do
   describe '#cache_expire_secs' do
     specify { subject.cache_expire_secs.should == 900 } # 15 minutes
   end
+
+  describe '#hits_window_secs' do
+    specify { subject.hits_window_secs.should be_nil } # don't expire hits by default
+  end
+
+  describe '#hit_count_window_secs' do
+    specify { subject.hit_count_window_secs.should be_nil } # don't expire hits by default
+  end
 end

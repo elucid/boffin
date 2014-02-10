@@ -57,8 +57,30 @@ module Boffin
     #   `true` if this hit is unique, `false` if it has been made before by the
     #   same session identifer.
     def track_hit
-      redis.incrbyfloat(keyspace.hit_count(@type, @instance), @increment)
-      redis.zincrby(keyspace.hits(@type, @instance), 1, @sessid) == 1.0
+      set_hit_count
+      set_hits
+    end
+
+    # Increments the {Keyspace#hit_count} key and possibly updates its TTL
+    def set_hit_count
+      key = keyspace.hit_count(@type, @instance)
+      redis.incrbyfloat(key, @increment)
+      if ttl = @tracker.config.hit_count_window_secs
+        redis.expire(key, ttl)
+      end
+    end
+
+    # Adds the session member to {Keyspace#hits} and possibly updates its TTL
+    # @return [true, false]
+    #   `true` if this hit is unique, `false` if it has been made before by the
+    #   same session identifer.
+    def set_hits
+      key = keyspace.hits(@type, @instance)
+      hit_is_unique = redis.zincrby(key, 1, @sessid) == 1.0
+      if ttl = @tracker.config.hits_window_secs
+        redis.expire(key, ttl)
+      end
+      hit_is_unique
     end
 
     # Store the hit member across all time intervals for the current window
